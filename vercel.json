@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "app/api/**/*.ts": {
+      "maxDuration": 10
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/((?!api|_next|favicon.ico).*)",
+      "destination": "/api/redirect/$1"
+    }
+  ]
+}
