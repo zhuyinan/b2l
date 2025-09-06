@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { CheckIcon, CopyIcon, SparklesIcon } from '@/components/icons'
 import { trackEvent } from '@/components/analytics'
+import { StructuredData } from '@/components/structured-data'
 
 export default function Home() {
   const [url, setUrl] = useState('')
@@ -70,7 +71,9 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <>
+      <StructuredData />
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
       {/* Background Pattern */}
       <div 
         className="absolute inset-0 opacity-40"
@@ -198,6 +201,7 @@ export default function Home() {
           </p>
         </div>
       </main>
-    </div>
+      </div>
+    </>
   )
 }
