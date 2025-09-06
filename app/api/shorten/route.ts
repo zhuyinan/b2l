@@ -25,9 +25,19 @@ export async function POST(request: NextRequest) {
     const mapping = await saveUrlMapping(url)
     
     // 构建短链URL
-    const baseUrl = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}` 
-      : 'https://b2l.me'
+    let baseUrl: string
+    
+    if (process.env.VERCEL_URL) {
+      // 生产环境
+      baseUrl = `https://${process.env.VERCEL_URL}`
+    } else if (process.env.NODE_ENV === 'development') {
+      // 本地开发环境
+      const port = process.env.PORT || '3000'
+      baseUrl = `http://localhost:${port}`
+    } else {
+      // 默认生产环境
+      baseUrl = 'https://b2l.me'
+    }
     
     const shortUrl = `${baseUrl}/${mapping.shortCode}`
 
