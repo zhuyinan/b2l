@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { CheckIcon, CopyIcon, SparklesIcon } from '@/components/icons'
+import { trackEvent } from '@/components/analytics'
 
 export default function Home() {
   const [url, setUrl] = useState('')
@@ -32,6 +33,12 @@ export default function Home() {
 
       const data = await response.json()
       setShortUrl(data.shortUrl)
+      
+      // 跟踪短链创建事件
+      trackEvent('short_link_created', {
+        event_category: 'engagement',
+        event_label: 'url_shortened'
+      })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred')
     } finally {
@@ -44,6 +51,12 @@ export default function Home() {
       await navigator.clipboard.writeText(shortUrl)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
+      
+      // 跟踪复制事件
+      trackEvent('copy_to_clipboard', {
+        event_category: 'engagement',
+        event_label: 'link_copied'
+      })
     } catch (err) {
       console.error('Copy failed:', err)
     }
