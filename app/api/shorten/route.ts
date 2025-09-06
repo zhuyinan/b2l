@@ -27,13 +27,19 @@ export async function POST(request: NextRequest) {
     // 构建短链URL
     let baseUrl: string
     
-    if (process.env.VERCEL_URL) {
-      // 生产环境
-      baseUrl = `https://${process.env.VERCEL_URL}`
+    // 获取请求的Host头
+    const host = request.headers.get('host')
+    
+    if (host === 'b2l.me') {
+      // 使用自定义域名
+      baseUrl = 'https://b2l.me'
     } else if (process.env.NODE_ENV === 'development') {
       // 本地开发环境
       const port = process.env.PORT || '3000'
       baseUrl = `http://localhost:${port}`
+    } else if (process.env.VERCEL_URL) {
+      // Vercel部署环境（临时域名）
+      baseUrl = `https://${process.env.VERCEL_URL}`
     } else {
       // 默认生产环境
       baseUrl = 'https://b2l.me'
